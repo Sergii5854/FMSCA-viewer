@@ -1,21 +1,23 @@
 import records from './../assets/FMSCA records.json'
-import { FilterTypes, IFMSCARow, PaginatedResponse } from '../types.ts'
+import { IFMSCARow, PaginatedResponse } from '../types.ts'
 import { filterFields } from '../components/FMSCAViewer/tableModel.ts'
 
 const dataService = {
     getData: (
         rowsPerPage: number,
         page: number,
-        filters: { [key: string]: FilterTypes },
+        filters: {
+            [key: string]: string | number | Date | (string | number | Date)[]
+        },
     ): PaginatedResponse<IFMSCARow> => {
         let filteredData: IFMSCARow[] = records.results
 
         if (filters && Object.keys(filters)?.length > 0) {
             filteredData = filteredData.filter((item) => {
-                let matches = true
+                let matches: boolean | string | number = true
 
                 for (const [key, value] of Object.entries(filters)) {
-                    const itemValue = item[key]
+                    const itemValue = item[key as keyof IFMSCARow]
                     if (itemValue !== undefined) {
                         const filterType = filterFields.find(
                             (f) => f.name === key,
@@ -28,7 +30,9 @@ const dataService = {
                                     new Date(itemValue)
                                         .toDateString()
                                         .includes(
-                                            new Date(value).toDateString(),
+                                            new Date(
+                                                value as Date,
+                                            ).toDateString(),
                                         )
 
                                 break
@@ -38,7 +42,9 @@ const dataService = {
                                     itemValue &&
                                     (itemValue?.toString() || '')
                                         .toLowerCase()
-                                        .includes(value?.toLowerCase())
+                                        .includes(
+                                            (value as string)?.toLowerCase(),
+                                        )
                                 break
                             case 'number':
                                 matches =
@@ -52,9 +58,14 @@ const dataService = {
                                 matches =
                                     matches &&
                                     itemValue &&
-                                    itemValue
+                                    (itemValue as string)
                                         .replace(/\D/g, '')
-                                        .includes(value?.replace(/\D/g, ''))
+                                        .includes(
+                                            (value as string)?.replace(
+                                                /\D/g,
+                                                '',
+                                            ),
+                                        )
 
                                 break
                             default:

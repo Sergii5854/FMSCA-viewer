@@ -11,6 +11,7 @@ export interface IFMSCARow {
     mc_mx_ff_number?: string
     power_units?: number
     out_of_service_date?: string
+    id: number
 }
 
 export type PaginationMetadata = {

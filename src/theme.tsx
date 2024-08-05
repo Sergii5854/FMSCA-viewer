@@ -31,36 +31,6 @@ const defaultTheme = createTheme({
             contrastText: '#fafafa',
         },
     },
-    components: {
-        // @ts-ignore
-        MuiPickersDay: {
-            styleOverrides: {
-                today: {
-                    backgroundColor: MainColor,
-                    color: 'rgba(255,255,255,0.87)',
-                    '&:hover': {
-                        backgroundColor: SecondaryColor,
-                    },
-                    '&.MuiButtonBase-root': {
-                        border: 0,
-                    },
-                },
-                root: {
-                    '&.Mui-selected': {
-                        backgroundColor: SecondaryColor,
-                        color: 'rgba(255,255,255,0.87)',
-                        border: 0,
-                        '&:hover': {
-                            backgroundColor: SecondaryColor,
-                        },
-                        '&:focus': {
-                            backgroundColor: SecondaryColor,
-                        },
-                    },
-                },
-            },
-        },
-    },
 })
 
 export default defaultTheme

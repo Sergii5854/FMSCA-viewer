@@ -53,7 +53,7 @@ const FMSCAViewer = () => {
     const [search, setSearch] = React.useState<Date | string | number>('')
 
     const handleChangePage = (
-        event: React.MouseEvent<HTMLButtonElement> | null,
+        _event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number,
     ) => {
         setPage(newPage)
@@ -83,7 +83,9 @@ const FMSCAViewer = () => {
     }
 
     React.useEffect(() => {
-        const filters = {
+        const filters: {
+            [key: string]: string | number | Date | (string | number | Date)[]
+        } = {
             ...(search !== '' &&
                 filteringParameter && {
                     // Enforce multiple search, when search value can be multiple
